@@ -70,7 +70,7 @@ public class HomeFragment extends BaseFragment {
             bundle.putString("pronunciation", words.getPronunciation());
             bundle.putString("meaning", words.getMeaning());
             bundle.putInt("collection", words.getCollection());
-            startActivityForResult(WordsActivity.class, bundle, 1000);
+            startActivityForResult(WordsActivity.class, bundle, Config.WORD_COLLECTION);
         }, o -> {
             DEApplication.getTts(wordsList.get((int) o).getWord().trim());
         });
@@ -85,9 +85,6 @@ public class HomeFragment extends BaseFragment {
         //从第page条开始，查询5条
         wordsList.clear();
         wordsList.addAll(WordsDao.queryOrderOut(DEApplication.getDb(), "select * from words id limit " + page + ",5"));
-        /*for(int i=0;i<wordsList.size();i++){
-            L.d("---",wordsList.get(i).getId()+"");
-        }*/
         if(wordsList.size()==0){
             llNullData.setVisibility(View.VISIBLE);
         }else{
@@ -149,7 +146,7 @@ public class HomeFragment extends BaseFragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
-            case 1000:
+            case Config.WORD_COLLECTION:
                 queryData(page);
                 break;
             default:

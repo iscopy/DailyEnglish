@@ -18,6 +18,7 @@ import com.iscopy.dailyenglish.app.DEApplication;
 import com.iscopy.dailyenglish.base.BaseActivity;
 import com.iscopy.dailyenglish.databank.sqlite.WordsDao;
 import com.iscopy.dailyenglish.utils.AppManager;
+import com.iscopy.dailyenglish.utils.T;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -120,9 +121,11 @@ public class WordsActivity extends BaseActivity {
                     if(collection==1){
                         collection = 0;
                         ivCollection.setImageResource(R.mipmap.give_up);
+                        T.showShort("取消收藏成功");
                     }else {
                         collection = 1;
                         ivCollection.setImageResource(R.mipmap.collection);
+                        T.showShort("收藏成功");
                     }
                 }
                 break;

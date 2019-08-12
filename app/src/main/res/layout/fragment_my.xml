@@ -15,12 +15,13 @@
             android:layout_width="@dimen/dp_60"
             android:layout_height="@dimen/dp_60"
             android:background="@drawable/image_circle_white"
-            android:layout_marginLeft="@dimen/dp_20"
-            android:gravity="center">
-            <ImageView
+            android:layout_marginLeft="@dimen/dp_20">
+            <com.iscopy.dailyenglish.widget.CircleImageView
                 android:id="@+id/iv_head"
                 android:layout_width="@dimen/dp_50"
-                android:layout_height="@dimen/dp_50" />
+                android:layout_height="@dimen/dp_50"
+                android:src="@mipmap/head"
+                android:layout_margin="@dimen/dp_5"/>
         </LinearLayout>
         <LinearLayout
             android:layout_weight="2"

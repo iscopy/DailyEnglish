@@ -3,6 +3,11 @@
     package="com.iscopy.dailyenglish">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
         android:name=".app.DEApplication"
@@ -22,7 +27,20 @@
         <activity android:name=".ui.MainActivity" />
         <activity android:name=".ui.my.LoadingActivity" />
         <activity android:name=".ui.home.WordsActivity" />
-        <activity android:name=".ui.my.EditorActivity"></activity>
+        <activity android:name=".ui.my.EditorActivity" />
+
+        <!-- 拍照7.0以上 注册内容提供者 -->
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.iscopy.dailyenglish.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths" />
+        </provider>
+
+        <activity android:name=".ui.my.CollectionActivity"></activity>
     </application>
 
 </manifest>

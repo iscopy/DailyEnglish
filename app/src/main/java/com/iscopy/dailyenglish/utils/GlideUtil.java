@@ -63,7 +63,8 @@ public class GlideUtil extends ImageLoader {
     public void filletImage(Context context, Object path, ImageView imageView, int angle) {
         Glide.with(context)
                 .load(path.toString())
-                .error(R.mipmap.fail_image)//图片加载失败后，显示的图片
+                //图片加载失败后，显示的图片
+                .error(R.mipmap.fail_image)
                 .bitmapTransform(new RoundedCornersTransformation(context, angle, 0, RoundedCornersTransformation.CornerType.ALL))
                 .crossFade(1000)
                 .into(imageView);

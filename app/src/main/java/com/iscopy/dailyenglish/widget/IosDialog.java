@@ -67,12 +67,7 @@ public class IosDialog extends Dialog {
             if(positiveButtonText != null){
                 ios_dialog_left.setText(positiveButtonText);
                 if(positiveButtonClickListener != null){
-                    ios_dialog_left.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            positiveButtonClickListener.onClick(dialog, DialogInterface.BUTTON_NEGATIVE);
-                        }
-                    });
+                    ios_dialog_left.setOnClickListener(view1 -> positiveButtonClickListener.onClick(dialog, DialogInterface.BUTTON_NEGATIVE));
                 }
             }else{
                 ios_dialog_left.setVisibility(View.GONE);
@@ -82,12 +77,7 @@ public class IosDialog extends Dialog {
             if(negativeButtonText != null){
                 ios_dialog_right.setText(negativeButtonText);
                 if(negativeButtonClickListener != null){
-                    ios_dialog_right.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            negativeButtonClickListener.onClick(dialog, DialogInterface.BUTTON_NEGATIVE);
-                        }
-                    });
+                    ios_dialog_right.setOnClickListener(view12 -> negativeButtonClickListener.onClick(dialog, DialogInterface.BUTTON_NEGATIVE));
                 }
             }else{
                 ios_dialog_right.setVisibility(View.GONE);

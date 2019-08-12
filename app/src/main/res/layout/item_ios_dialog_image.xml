@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:gravity="bottom|center"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    
+    <LinearLayout
+        android:layout_width="@dimen/dp_335"
+        android:layout_height="@dimen/dp_180"
+        android:orientation="vertical"
+        android:layout_margin="@dimen/dp_10">
+
+        <TextView
+            android:id="@+id/evaluate_phone"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_56"
+            android:gravity="center"
+            android:background="@drawable/fillet_ios_dialog_evaluate1"
+            android:text="拍照"
+            android:textSize="@dimen/dp_20"
+            android:textColor="#353541"/>
+        <TextView
+            android:id="@+id/evaluate_Album"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_56"
+            android:layout_marginTop="@dimen/dp_1"
+            android:background="@drawable/fillet_ios_dialog_evaluate2"
+            android:gravity="center"
+            android:text="从相册选择"
+            android:textSize="@dimen/dp_20"
+            android:textColor="#4d4d4f"/>
+
+        <TextView
+            android:id="@+id/evaluate_cancel"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_56"
+            android:layout_marginTop="@dimen/dp_7"
+            android:background="@drawable/fillet_ios_dialog"
+            android:gravity="center"
+            android:text="取消"
+            android:textSize="@dimen/dp_20"
+            android:textColor="#242425"/>
+
+    </LinearLayout>
+    
+</LinearLayout>

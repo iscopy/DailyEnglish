@@ -11,6 +11,7 @@
         android:layout_height="@dimen/dp_150"
         android:src="@mipmap/no_data"/>
     <TextView
+        android:id="@+id/tv_tips"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"

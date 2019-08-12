@@ -96,7 +96,12 @@ public class EditorActivity extends BaseActivity {
                 AppManager.finishCurrentActivity();
                 break;
             case R.id.btn_quotes:
-                boolean trfa = SharedPreferencesUtils.saveStringData(DEApplication.getAppContext(), Config.MY_QUOTES, etQuotes.getText().toString());
+                String quotes = etQuotes.getText().toString();
+                if(quotes.equals("")){
+                    T.showShort("请先输入金句才能保存！");
+                    return;
+                }
+                boolean trfa = SharedPreferencesUtils.saveStringData(DEApplication.getAppContext(), Config.MY_QUOTES, quotes);
                 if(trfa){
                     T.showShort("保存成功");
                     AppManager.finishCurrentActivity();

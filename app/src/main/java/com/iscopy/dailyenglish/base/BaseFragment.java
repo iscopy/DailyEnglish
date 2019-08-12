@@ -82,6 +82,14 @@ public abstract class BaseFragment extends Fragment{
     }
 
     /**
+     * 带返回值[页面跳转]
+     * @param clz
+     */
+    public void startActivity(Class<?> clz, int x) {
+        startActivityForResult(new Intent(getActivity(),clz), x);
+    }
+
+    /**
      * [携带数据的页面跳转]
      *
      * @param clz

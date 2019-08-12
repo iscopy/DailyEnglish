@@ -129,6 +129,10 @@ public abstract class BaseActivity extends AppCompatActivity {
      */
     public abstract void doBusiness(Context mContext);
 
+    public Context getMContext(){
+        return context;
+    }
+
 
 
     /**
