@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/item_title"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_150"
+        android:orientation="vertical"
+        android:background="@drawable/editor"
+        android:padding="@dimen/dp_5"
+        android:layout_margin="@dimen/dp_10">
+
+        <EditText
+            android:id="@+id/et_quotes"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@color/White"
+            android:inputType="textMultiLine"
+            android:gravity="left|top"
+            android:hint="输入您的金句名言，不超过50字"
+            android:minLines="6"/>
+        <TextView
+            android:id="@+id/tv_quotes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="0/50"
+            android:gravity="right"/>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_quotes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="保存"
+        android:background="@drawable/button"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:layout_marginRight="@dimen/dp_10"/>
+
+
+</LinearLayout> 

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+
+    <!--红、黄、绿、蓝、紫、黑、白-->
+    <color name="Red">#FF0000</color>
+    <color name="Orange">#ffd902</color>
+    <color name="Green">#08ff00</color>
+    <color name="Blue">#0040ff</color>
+    <color name="Purple">#aa00ff</color>
+    <color name="Black">#000000</color>
+    <color name="White">#ffffff</color>
+
+    <!--红、黄、绿、蓝、紫、黑、白-->
+    <color name="Red_">#fc4d4d</color>
+    <color name="Orange_">#fee34d</color>
+    <color name="Green_">#53ff4d</color>
+    <color name="Blue_">#4d79fe</color>
+    <color name="Purple_">#c34dfe</color>
+    <color name="Black_">#ff4d4d</color>
+    <color name="White_">#e8e8e8</color>
+
+    <!--Black-->
+    <color name="Black2">#2f2f2f</color>
+    <color name="Black3">#656565</color>
+    <color name="Black4">#b7b6b6</color>
+    <color name="Black5">#e8e8e8</color>
+
+</resources>

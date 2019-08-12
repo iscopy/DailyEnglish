@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">DailyEnglish</string>
+
+    <string name="home">五词</string>
+    <string name="my">我的</string>
+</resources>
