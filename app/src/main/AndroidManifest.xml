@@ -40,7 +40,8 @@
                 android:resource="@xml/provider_paths" />
         </provider>
 
-        <activity android:name=".ui.my.CollectionActivity"></activity>
+        <activity android:name=".ui.my.CollectionActivity" />
+        <activity android:name=".ui.my.SignInActivity"/>
     </application>
 
 </manifest>

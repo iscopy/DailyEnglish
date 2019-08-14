@@ -32,6 +32,18 @@ public class DESQLite extends SQLiteOpenHelper {
                 "meaning varchar2  not null," +
                 "collection integer not null)";
         db.execSQL(words);
+
+        /**
+         * 保存签到日志
+         * year 年
+         * month 月
+         * day 日
+         */
+        String sign_in = "create table sign_in(" +
+                "year integer not null," +
+                "month integer  not null," +
+                "day integer not null)";
+        db.execSQL(sign_in);
     }
 
     @Override
