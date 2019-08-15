@@ -39,11 +39,11 @@ public class DESQLite extends SQLiteOpenHelper {
          * month 月
          * day 日
          */
-        String sign_in = "create table sign_in(" +
+        String signin = "create table signin(" +
                 "year integer not null," +
                 "month integer  not null," +
                 "day integer not null)";
-        db.execSQL(sign_in);
+        db.execSQL(signin);
     }
 
     @Override

@@ -20,7 +20,7 @@ public class SignInDao {
         contentValues.put("year", signIn.getYear());
         contentValues.put("month", signIn.getMonth());
         contentValues.put("day", signIn.getDay());
-        db.insert("sign_in", null, contentValues);
+        db.insert("signin", null, contentValues);
     }
 
     /**
@@ -29,7 +29,7 @@ public class SignInDao {
      * @return
      */
     public static synchronized int deleteOrderOut(SQLiteDatabase db){
-        return db.delete("sign_in", null, null);
+        return db.delete("signin", null, null);
     }
 
     /**
@@ -42,7 +42,7 @@ public class SignInDao {
     public static synchronized int updateOrderOut(ContentValues values, String whereClause, String[] whereArgs, SQLiteDatabase db){
         int ret = -1;
         do {
-            ret = db.update("sign_in", values, whereClause, whereArgs);
+            ret = db.update("signin", values, whereClause, whereArgs);
         } while (ret < 0);
         return ret;
         /**

@@ -17,6 +17,12 @@ public class SignIn {
      * 日
      */
     private int day;
+    public SignIn(){}
+    public SignIn(int year, int month, int day) {
+        this.year = year;
+        this.month = month;
+        this.day = day;
+    }
 
     public int getYear() {
         return year;

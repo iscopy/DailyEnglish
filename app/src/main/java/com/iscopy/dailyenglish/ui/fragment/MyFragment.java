@@ -26,6 +26,7 @@ import com.iscopy.dailyenglish.databank.SharedPreferencesUtils;
 import com.iscopy.dailyenglish.ui.my.CollectionActivity;
 import com.iscopy.dailyenglish.ui.my.EditorActivity;
 import com.iscopy.dailyenglish.ui.my.LoadingActivity;
+import com.iscopy.dailyenglish.ui.my.SignInActivity;
 import com.iscopy.dailyenglish.utils.Base64BitmapUtils;
 import com.iscopy.dailyenglish.utils.GlideUtil;
 import com.iscopy.dailyenglish.utils.T;
@@ -95,15 +96,15 @@ public class MyFragment extends BaseFragment {
             case R.id.iv_head:
                 showdialog();
                 break;
-            case R.id.ll_tag:
-                break;
             case R.id.iv_editor:
                 startActivity(EditorActivity.class, Config.MY_QUOTES_INT);
                 break;
             case R.id.ll_collection:
                 startActivity(CollectionActivity.class);
                 break;
+            case R.id.ll_tag:
             case R.id.ll_sign_in:
+                startActivity(SignInActivity.class);
                 break;
             case R.id.ll_instructions:
                 break;

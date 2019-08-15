@@ -62,7 +62,7 @@
         android:layout_marginTop="@dimen/dp_10"
         android:orientation="horizontal"
         android:gravity="center"
-        android:background="@color/White">
+        android:background="@color/Red_">
 
         <TextView
             android:id="@+id/tv_before_month"
@@ -72,6 +72,8 @@
             android:paddingRight="@dimen/dp_20"
             android:paddingTop="@dimen/dp_5"
             android:paddingBottom="@dimen/dp_5"
+            android:textColor="@color/White"
+            android:textSize="@dimen/sp_18"
             android:text="上月"/>
 
         <TextView
@@ -90,6 +92,8 @@
             android:paddingRight="@dimen/dp_20"
             android:paddingTop="@dimen/dp_5"
             android:paddingBottom="@dimen/dp_5"
+            android:textColor="@color/White"
+            android:textSize="@dimen/sp_18"
             android:text="下月"/>
 
     </LinearLayout>
