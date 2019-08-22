@@ -16,11 +16,6 @@ public class Config {
     public final static String SIGN_IN = "Sign_in";
 
     /**
-     * 单词页数
-     */
-    public final static String WORD_PAGE = "word_page";
-
-    /**
      * 我的金句名言
      */
     public final static String MY_QUOTES = "my_quotes";
@@ -48,4 +43,12 @@ public class Config {
      * 我的-收藏
      */
     public static final int MY_COLLECTION = 1005;
+    /**
+     * 首页-加载数据
+     */
+    public static final int WORD_LOADING = 1006;
+    /**
+     * 首页-打卡
+     */
+    public static final int CLOCK_IN = 1007;
 }

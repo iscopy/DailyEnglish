@@ -16,11 +16,13 @@ import com.iscopy.dailyenglish.app.DEApplication;
 import com.iscopy.dailyenglish.base.BaseFragment;
 import com.iscopy.dailyenglish.constant.Config;
 import com.iscopy.dailyenglish.databank.SharedPreferencesUtils;
+import com.iscopy.dailyenglish.databank.sqlite.SignInDao;
 import com.iscopy.dailyenglish.databank.sqlite.WordsDao;
 import com.iscopy.dailyenglish.interfaces.AParameter;
 import com.iscopy.dailyenglish.model.Words;
 import com.iscopy.dailyenglish.ui.home.WordsActivity;
 import com.iscopy.dailyenglish.ui.my.LoadingActivity;
+import com.iscopy.dailyenglish.ui.my.SignInActivity;
 import com.iscopy.dailyenglish.utils.AppManager;
 import com.iscopy.dailyenglish.utils.L;
 import com.iscopy.dailyenglish.utils.T;
@@ -58,9 +60,13 @@ public class HomeFragment extends BaseFragment {
 
     @Override
     public void initView(View view) {
-        tvTitle.setText("已学习" + SharedPreferencesUtils.getIntData(DEApplication.getAppContext(),Config.SIGN_IN) + "天");
-        pages = SharedPreferencesUtils.getIntData(DEApplication.getAppContext(),Config.WORD_PAGE);
-        page = pages;
+        pages = queryDay();
+        tvTitle.setText("已学习" + pages + "天");
+        if(pages==0){
+            page = pages;
+        }else{
+            page = pages*5;
+        }
         wordsList = new ArrayList<>();
         wordsAdapter = new WordsAdapter(DEApplication.getAppContext(), wordsList, o -> {
             Words words = wordsList.get((int) o);
@@ -93,6 +99,19 @@ public class HomeFragment extends BaseFragment {
         wordsAdapter.notifyDataSetChanged();
     }
 
+    /**
+     * 查询签到次数（签到了多少天了）
+     * @return
+     */
+    public int queryDay() {
+        try{
+            return SignInDao.queryOrderOut(DEApplication.getDb(), "select * from signin").size();
+        }catch (NullPointerException e){
+            return 0;
+        }
+
+    }
+
     @Override
     public void receiveRadio(Intent intent) {
 
@@ -119,13 +138,14 @@ public class HomeFragment extends BaseFragment {
                     builder.setPositiveButton("继续学习", (dialogInterface, i) -> dialogInterface.dismiss());
                     builder.create().show();
                 } else {
-                    if(page==pages){
+                    if(page==(pages*5)){
                         IosDialog.Builder builder = new IosDialog.Builder(getMContext());
                         builder.setMessage("已是最新页了，如果学完本页记得打卡哦？");
                         builder.setPositiveButton("继续学习", (dialogInterface, i) -> dialogInterface.dismiss());
                         builder.setNegativeButton("前去打卡", (dialogInterface, i) -> {
                             dialogInterface.dismiss();
                             //前去打卡签到
+                            startActivity(SignInActivity.class, Config.CLOCK_IN);
                         });
                         builder.create().show();
                     }else{
@@ -135,7 +155,7 @@ public class HomeFragment extends BaseFragment {
                 }
                 break;
             case R.id.ll_null_data:
-                startActivity(LoadingActivity.class);
+                startActivity(LoadingActivity.class, Config.WORD_LOADING);
                 break;
             default:
                 break;
@@ -148,6 +168,12 @@ public class HomeFragment extends BaseFragment {
         switch (requestCode) {
             case Config.WORD_COLLECTION:
                 queryData(page);
+                break;
+            case Config.WORD_LOADING:
+                queryData(page);
+                break;
+            case Config.CLOCK_IN:
+                tvTitle.setText("已学习" + queryDay() + "天");
                 break;
             default:
                 break;

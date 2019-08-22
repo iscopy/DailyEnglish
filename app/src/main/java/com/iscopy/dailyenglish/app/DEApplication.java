@@ -6,6 +6,7 @@ import android.speech.tts.TextToSpeech;
 
 import com.iscopy.dailyenglish.databank.DESQLite;
 import com.iscopy.dailyenglish.utils.L;
+import com.tencent.bugly.Bugly;
 
 import java.util.Locale;
 
@@ -26,6 +27,9 @@ public class DEApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        Bugly.init(getApplicationContext(), "a6b7302bba", false);
+
         happyGApplication = this;
 
         db = new DESQLite(this).getReadableDatabase();

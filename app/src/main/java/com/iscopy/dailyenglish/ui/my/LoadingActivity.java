@@ -161,6 +161,8 @@ public class LoadingActivity extends BaseActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             llLoading.setVisibility(View.GONE);
+            btnGetData.setText("加载完成");
+            T.showLong("加载完成");
         }
     }
 

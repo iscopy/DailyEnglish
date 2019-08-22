@@ -88,6 +88,7 @@ public class SignInActivity extends BaseActivity {
     @Override
     public void initView(View view) {
         tvTitle.setText("签到日志");
+        tvDay.setText(queryDay() + " 天");
         tvDate.setText(DateUtil.getCurrentYearAndMonth());
         signInList = new ArrayList<>();
         stringList = new ArrayList<>();
@@ -134,6 +135,7 @@ public class SignInActivity extends BaseActivity {
                     SignInDao.insertOrderOut(signIn, DEApplication.getDb());
                     Today();
                     getSignIn(year, month);
+                    tvDay.setText(queryDay() + " 天");
                 }
                 break;
             case R.id.tv_before_month:
@@ -214,5 +216,18 @@ public class SignInActivity extends BaseActivity {
         signInList.clear();
         signInList.addAll(SignInDao.queryOrderOut(DEApplication.getDb(), "select * from signin where year='" + year + "' and month='" + month + "'"));
         signDateAdapter.notifyDataSetChanged();
+    }
+
+    /**
+     * 查询签到次数（签到了多少天了）
+     * @return
+     */
+    public int queryDay() {
+        try{
+            return SignInDao.queryOrderOut(DEApplication.getDb(), "select * from signin").size();
+        }catch (NullPointerException e){
+            return 0;
+        }
+
     }
 }
