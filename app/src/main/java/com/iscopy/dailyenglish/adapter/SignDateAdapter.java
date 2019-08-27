@@ -54,11 +54,15 @@ public class SignDateAdapter extends RecyclerView.Adapter<SignDateAdapter.Contro
                 if(signInList.get(j).getDay() == Integer.parseInt(stringList.get(i))){
                     controlsView.tvWeek.setTextColor(Color.parseColor("#FD0000"));
                     controlsView.ivStatus.setVisibility(View.VISIBLE);
+                    break;
                 }else{
                     controlsView.tvWeek.setTextColor(Color.parseColor("#666666"));
                     controlsView.ivStatus.setVisibility(View.GONE);
                 }
             }
+        }else{
+            controlsView.tvWeek.setTextColor(Color.parseColor("#666666"));
+            controlsView.ivStatus.setVisibility(View.GONE);
         }
     }
 
