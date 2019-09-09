@@ -1,26 +1,33 @@
 package com.iscopy.dailyenglish.ui.home;
 
-import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.webkit.WebResourceRequest;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.iscopy.dailyenglish.R;
+import com.iscopy.dailyenglish.adapter.SentenceAdapter;
 import com.iscopy.dailyenglish.app.DEApplication;
 import com.iscopy.dailyenglish.base.BaseActivity;
+import com.iscopy.dailyenglish.constant.Config;
+import com.iscopy.dailyenglish.databank.sqlite.SentenceDao;
 import com.iscopy.dailyenglish.databank.sqlite.WordsDao;
+import com.iscopy.dailyenglish.model.Sentence;
+import com.iscopy.dailyenglish.ui.my.LoadingActivity;
 import com.iscopy.dailyenglish.utils.AppManager;
 import com.iscopy.dailyenglish.utils.T;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class WordsActivity extends BaseActivity {
@@ -41,8 +48,12 @@ public class WordsActivity extends BaseActivity {
     LinearLayout llPronunciation;
     @BindView(R.id.tv_meaning)
     TextView tvMeaning;
-    @BindView(R.id.web_word)
-    WebView webWord;
+    @BindView(R.id.rv_sentence)
+    RecyclerView rvSentence;
+    @BindView(R.id.tv_tips)
+    TextView tvTips;
+    @BindView(R.id.ll_null_data)
+    LinearLayout llNullData;
 
     private int id;
     /**
@@ -61,6 +72,13 @@ public class WordsActivity extends BaseActivity {
      * 收藏
      */
     private int collection;
+
+    /**
+     * 造句
+     */
+    private SentenceAdapter sentenceAdapter;
+    private List<Sentence> sentenceList;
+
 
     @Override
     public void initParms(Bundle parms) {
@@ -88,14 +106,28 @@ public class WordsActivity extends BaseActivity {
         tvPronunciation.setText(pronunciation);
         tvMeaning.setText(meaning);
 
-        if(collection==1){
+        if (collection == 1) {
             ivCollection.setImageResource(R.mipmap.collection);
-        }else {
+        } else {
             ivCollection.setImageResource(R.mipmap.give_up);
         }
 
-        WebS();
-        webWord.loadUrl("http://www.jukuu.com/search.php?q=" + word);
+        tvTips.setText("单词造句数据为空，请点击去加载页加载");
+
+        sentenceList = new ArrayList<>();
+        sentenceAdapter = new SentenceAdapter(getMContext(), sentenceList, o -> {
+            DEApplication.getTts(sentenceList.get((int)o).getSentence());
+        });
+        rvSentence.setLayoutManager(new GridLayoutManager(getMContext(), 1));
+        rvSentence.setAdapter(sentenceAdapter);
+        rvSentence.setNestedScrollingEnabled(false);
+
+        try{
+            getSentence(word);
+        }catch (SQLiteException e){
+            llNullData.setVisibility(View.VISIBLE);
+        }
+
     }
 
     @Override
@@ -103,7 +135,7 @@ public class WordsActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.iv_return, R.id.iv_collection, R.id.ll_pronunciation})
+    @OnClick({R.id.iv_return, R.id.iv_collection, R.id.ll_pronunciation, R.id.ll_null_data})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_return:
@@ -111,18 +143,18 @@ public class WordsActivity extends BaseActivity {
                 break;
             case R.id.iv_collection:
                 ContentValues values = new ContentValues();
-                if(collection==1){
-                    values.put("collection",0);
-                }else {
-                    values.put("collection",1);
+                if (collection == 1) {
+                    values.put("collection", 0);
+                } else {
+                    values.put("collection", 1);
                 }
-                int type = WordsDao.updateOrderOut(values, "id=?",new String[]{""+id}, DEApplication.getDb());
-                if(type>0){
-                    if(collection==1){
+                int type = WordsDao.updateOrderOut(values, "id=?", new String[]{"" + id}, DEApplication.getDb());
+                if (type > 0) {
+                    if (collection == 1) {
                         collection = 0;
                         ivCollection.setImageResource(R.mipmap.give_up);
                         T.showShort("取消收藏成功");
-                    }else {
+                    } else {
                         collection = 1;
                         ivCollection.setImageResource(R.mipmap.collection);
                         T.showShort("收藏成功");
@@ -132,47 +164,23 @@ public class WordsActivity extends BaseActivity {
             case R.id.ll_pronunciation:
                 DEApplication.getTts(word);
                 break;
+            case R.id.ll_null_data:
+                startActivity(LoadingActivity.class, Config.WORD_LOADING);
+                break;
             default:
                 break;
         }
     }
 
-    @SuppressLint("JavascriptInterface")
-    private void WebS() {
-        //支持设置
-        WebSettings webSettings = webWord.getSettings();
-        //允许使用js
-        webSettings.setJavaScriptEnabled(true);
-        //设置DOM储存
-        webSettings.setDomStorageEnabled(false);
-        webSettings.setCacheMode(WebSettings.LOAD_DEFAULT);
-        //WebView屏幕自适应
-        webSettings.setUseWideViewPort(true);
-        webSettings.setLoadWithOverviewMode(true);
-        //支持缩放
-        webSettings.setSupportZoom(true);
-        webSettings.setBuiltInZoomControls(true);
-        //支持内容重新布局
-        webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
-        //多窗口
-        webSettings.supportMultipleWindows();
-        //设置可以访问文件
-        webSettings.setAllowFileAccess(false);
-        //当webview调用requestFocus时为webview设置节点
-        webSettings.setNeedInitialFocus(false);
-        //支持通过JS打开新窗口
-        webSettings.setJavaScriptCanOpenWindowsAutomatically(false);
-        //支持自动加载图片
-        webSettings.setLoadsImagesAutomatically(true);
-        //关闭硬件加速
-        webWord.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-        webWord.setWebViewClient(new WebViewClient(){
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-                return super.shouldOverrideUrlLoading(view, request);
-            }
-        });
+    public void getSentence(String words){
+        String sql = "select * from sentence where word=\'" + words + "\'";
+        List<Sentence> sentenceListSql = SentenceDao.queryOrderOut(DEApplication.getDb(), sql);
+        sentenceList.addAll(sentenceListSql);
+        if (sentenceList.size() != 0) {
+            sentenceAdapter.notifyDataSetChanged();
+            llNullData.setVisibility(View.GONE);
+        } else {
+            llNullData.setVisibility(View.VISIBLE);
+        }
     }
-
-
 }

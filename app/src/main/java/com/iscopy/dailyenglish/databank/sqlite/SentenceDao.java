@@ -3,37 +3,39 @@ package com.iscopy.dailyenglish.databank.sqlite;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 
-import com.iscopy.dailyenglish.model.SignIn;
+import com.iscopy.dailyenglish.model.Sentence;
 
 import java.util.Vector;
 
-public class SignInDao {
+public class SentenceDao {
+
     /**
-     * 签到日志(增)
-     * @param signIn
+     * 单词造句(增)
+     * @param sentence
      * @param db
      */
-    public static synchronized void insertOrderOut(SignIn signIn, SQLiteDatabase db){
+    public static synchronized void insertOrderOut(Sentence sentence, SQLiteDatabase db){
         //实例化常量值
         ContentValues contentValues = new ContentValues();
-        contentValues.put("year", signIn.getYear());
-        contentValues.put("month", signIn.getMonth());
-        contentValues.put("day", signIn.getDay());
-        db.insert("signin", null, contentValues);
+        contentValues.put("word", sentence.getWord());
+        contentValues.put("sentence", sentence.getSentence());
+        contentValues.put("sentence2", sentence.getSentence2());
+        db.insert("sentence", null, contentValues);
     }
 
     /**
-     * 签到日志（删）
+     * 单词造句（删）
      * @param db
      * @return
      */
     public static synchronized int deleteOrderOut(SQLiteDatabase db){
-        return db.delete("signin", null, null);
+        return db.delete("sentence", null, null);
     }
 
     /**
-     * 签到日志（改）
+     * 单词造句（改）
      * @param values
      * @param whereClause
      * @param whereArgs
@@ -42,7 +44,7 @@ public class SignInDao {
     public static synchronized int updateOrderOut(ContentValues values, String whereClause, String[] whereArgs, SQLiteDatabase db){
         int ret = -1;
         do {
-            ret = db.update("signin", values, whereClause, whereArgs);
+            ret = db.update("sentence", values, whereClause, whereArgs);
         } while (ret < 0);
         return ret;
         /**
@@ -58,33 +60,33 @@ public class SignInDao {
     }
 
     /**
-     * 签到日志（查）
+     * 单词造句（查）
      * @param db
      * @return
      */
-    public static synchronized Vector<SignIn> queryOrderOut(SQLiteDatabase db, String sql){
+    public static synchronized Vector<Sentence> queryOrderOut(SQLiteDatabase db, String sql) {
         //定义一个 Vector<User>
-        Vector<SignIn> vector = new Vector<SignIn>();
-        SignIn signIn = null;
+        Vector<Sentence> vector = new Vector<Sentence>();
+        Sentence sentence = null;
 
         //获取查询光标（用 query()方法将所有都查出来）
-        //Cursor cursor = db.query("words", null, "id limit" + day+","+(day+5), null, null, null, null);
+        //Cursor cursor = db.query("sentence", null, "id limit" + day+","+(day+5), null, null, null, null);
         Cursor cursor = db.rawQuery(sql, null);
         //移动光标到第一个
         if(cursor.moveToFirst()){
             //将数据放入 OrderOut 对象，并放入 vector 集合
-            signIn = new SignIn();
-            signIn.setYear(cursor.getInt(cursor.getColumnIndex("year")));
-            signIn.setMonth(cursor.getInt(cursor.getColumnIndex("month")));
-            signIn.setDay(cursor.getInt(cursor.getColumnIndex("day")));
-            vector.add(signIn);
+            sentence = new Sentence();
+            sentence.setWord(cursor.getString(cursor.getColumnIndex("word")));
+            sentence.setSentence(cursor.getString(cursor.getColumnIndex("sentence")));
+            sentence.setSentence2(cursor.getString(cursor.getColumnIndex("sentence2")));
+            vector.add(sentence);
             //如果有下一个
             while(cursor.moveToNext()){
-                signIn = new SignIn();
-                signIn.setYear(cursor.getInt(cursor.getColumnIndex("year")));
-                signIn.setMonth(cursor.getInt(cursor.getColumnIndex("month")));
-                signIn.setDay(cursor.getInt(cursor.getColumnIndex("day")));
-                vector.add(signIn);
+                sentence = new Sentence();
+                sentence.setWord(cursor.getString(cursor.getColumnIndex("word")));
+                sentence.setSentence(cursor.getString(cursor.getColumnIndex("sentence")));
+                sentence.setSentence2(cursor.getString(cursor.getColumnIndex("sentence2")));
+                vector.add(sentence);
             }
         }
         //关闭光标
@@ -92,4 +94,5 @@ public class SignInDao {
         //返回 User 对象集合
         return vector;
     }
+
 }

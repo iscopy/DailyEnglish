@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -17,7 +18,9 @@ import android.widget.TextView;
 import com.iscopy.dailyenglish.R;
 import com.iscopy.dailyenglish.app.DEApplication;
 import com.iscopy.dailyenglish.base.BaseActivity;
+import com.iscopy.dailyenglish.databank.sqlite.SentenceDao;
 import com.iscopy.dailyenglish.databank.sqlite.WordsDao;
+import com.iscopy.dailyenglish.model.Sentence;
 import com.iscopy.dailyenglish.model.Words;
 import com.iscopy.dailyenglish.utils.AppManager;
 import com.iscopy.dailyenglish.utils.T;
@@ -85,7 +88,7 @@ public class LoadingActivity extends BaseActivity {
     }
 
 
-    @OnClick({R.id.iv_return, R.id.btn_get_data})
+    @OnClick({R.id.iv_return, R.id.btn_get_data, R.id.btn_get_data2})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_return:
@@ -94,6 +97,10 @@ public class LoadingActivity extends BaseActivity {
             case R.id.btn_get_data:
                 llLoading.setVisibility(View.VISIBLE);
                 loading();
+                break;
+            case R.id.btn_get_data2:
+                llLoading.setVisibility(View.VISIBLE);
+                loading2();
                 break;
             default:
                 break;
@@ -105,7 +112,7 @@ public class LoadingActivity extends BaseActivity {
             WordsDao.deleteOrderOut(DEApplication.getDb());
             List<String> list = new ArrayList<>();
             try {
-                list.addAll(getFileContext());
+                list.addAll(getFileContext(R.raw.this2000word));
             } catch (Exception e) {
                 e.printStackTrace();
                 T.showShort("解析文件失败！请稍后再试");
@@ -127,11 +134,38 @@ public class LoadingActivity extends BaseActivity {
         thread.start();
     }
 
+    public void loading2() {
+        Thread thread = new Thread(() -> {
+            SentenceDao.deleteOrderOut(DEApplication.getDb());
+            List<String> list = new ArrayList<>();
+            try {
+                list.addAll(getFileContext(R.raw.statements));
+            } catch (Exception e) {
+                e.printStackTrace();
+                T.showShort("解析文件失败！请稍后再试");
+            }
+            for (int i = 0; i < list.size(); i++) {
+                String[] strArray = list.get(i).split("\\*\\*\\*\\*\\*");
+                Log.d(i + "----",strArray[0]);
+                Log.d(i + "----",strArray[1]);
+                Log.d(i + "----",strArray[2]);
+                Sentence sentence = new Sentence(strArray[0], strArray[1], strArray[2]);
+                SentenceDao.insertOrderOut(sentence, DEApplication.getDb());
+            }
+            Intent intent = new Intent();
+            //BROADCAST_ACTION_DISC,用于标识接收
+            intent.setAction(BROADCAST_ACTION_DISC);
+            //发送广播
+            sendBroadcast(intent);
+        });
+        thread.start();
+    }
+
     /**
      * 获取txt文件内容并按行放入list中
      */
-    public List<String> getFileContext() throws Exception {
-        InputStream inputStream = getResources().openRawResource(R.raw.this2000word);
+    public List<String> getFileContext(int raw) throws Exception {
+        InputStream inputStream = getResources().openRawResource(raw);
         InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "utf-8");
         BufferedReader buffer = new BufferedReader(inputStreamReader);
         List<String> list = new ArrayList<String>();
@@ -161,7 +195,6 @@ public class LoadingActivity extends BaseActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             llLoading.setVisibility(View.GONE);
-            btnGetData.setText("加载完成");
             T.showLong("加载完成");
         }
     }

@@ -159,6 +159,14 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     /**
+     * 带返回值[页面跳转]
+     * @param clz
+     */
+    public void startActivity(Class<?> clz, int x) {
+        startActivityForResult(new Intent(this,clz), x);
+    }
+
+    /**
      * [含有Bundle通过Class打开编辑界面]
      *
      * @param cls

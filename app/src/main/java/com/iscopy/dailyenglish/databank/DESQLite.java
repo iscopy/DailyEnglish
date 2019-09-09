@@ -34,6 +34,18 @@ public class DESQLite extends SQLiteOpenHelper {
         db.execSQL(words);
 
         /**
+         * 单词造句
+         * 单词   word
+         * 语句   pronunciation
+         * 语句中午含义  meaning
+         */
+        String sentence = "create table sentence(" +
+                "word varchar2 not null," +
+                "sentence varchar2 not null," +
+                "sentence2 varchar2  not null)";
+        db.execSQL(sentence);
+
+        /**
          * 保存签到日志
          * year 年
          * month 月
