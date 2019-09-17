@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.iscopy.dailyenglish">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -8,6 +9,9 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
+    <uses-permission android:name="android.permission.READ_LOGS"
+        tools:ignore="ProtectedPermissions" /><!--保存资源到SD卡-->
 
     <!--极光推送-->
     <!-- Required -->
@@ -64,6 +68,11 @@
             </intent-filter>
         </receiver>
         <!--极光推送结束-->
+
+        <!-- bugly自动升级 -->
+        <activity android:name="com.tencent.bugly.beta.ui.BetaActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize|locale"
+            android:theme="@android:style/Theme.Translucent" />
 
         <activity android:name=".ui.MainActivity" />
         <activity android:name=".ui.my.LoadingActivity" />

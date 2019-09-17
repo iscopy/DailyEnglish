@@ -7,6 +7,7 @@ import android.speech.tts.TextToSpeech;
 import com.iscopy.dailyenglish.databank.DESQLite;
 import com.iscopy.dailyenglish.utils.L;
 import com.tencent.bugly.Bugly;
+import com.tencent.bugly.beta.Beta;
 
 import java.util.Locale;
 
@@ -36,13 +37,19 @@ public class DEApplication extends Application {
 
         aurora();
 
-        Bugly.init(getApplicationContext(), "a6b7302bba", false);
+        bugly();
 
         happyGApplication = this;
 
         db = new DESQLite(this).getReadableDatabase();
 
         read();
+    }
+
+    public void bugly(){
+        Beta.initDelay = 1 * 1000;
+        Beta.upgradeCheckPeriod = 5 * 1000;
+        Bugly.init(getApplicationContext(), "a6b7302bba", false);
     }
 
     public void aurora() {
