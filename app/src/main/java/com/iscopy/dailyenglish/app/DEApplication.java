@@ -10,6 +10,8 @@ import com.tencent.bugly.Bugly;
 
 import java.util.Locale;
 
+import cn.jpush.android.api.JPushInterface;
+
 public class DEApplication extends Application {
 
     private static DEApplication happyGApplication;
@@ -23,10 +25,16 @@ public class DEApplication extends Application {
      * 语音
      */
     public static TextToSpeech tts;
+    /**
+     * 极光 id
+     */
+    public static String registrationId;
 
     @Override
     public void onCreate() {
         super.onCreate();
+
+        aurora();
 
         Bugly.init(getApplicationContext(), "a6b7302bba", false);
 
@@ -35,6 +43,22 @@ public class DEApplication extends Application {
         db = new DESQLite(this).getReadableDatabase();
 
         read();
+    }
+
+    public void aurora() {
+        JPushInterface.setDebugMode(false);
+        //初始化极光推送
+        JPushInterface.init(this);
+        registrationId = JPushInterface.getRegistrationID(this);
+        L.e("Aurora", "registrationId： " + registrationId);
+    }
+
+    public static String getRegistrationId() {
+        return registrationId;
+    }
+
+    public static void setRegistrationId(String registrationId) {
+        DEApplication.registrationId = registrationId;
     }
 
     public static final DEApplication getAppContext() {

@@ -3,9 +3,7 @@ package com.iscopy.dailyenglish.ui;
 import android.content.Context;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -17,7 +15,6 @@ import com.iscopy.dailyenglish.adapter.FragmentAdapter;
 import com.iscopy.dailyenglish.base.BaseActivity;
 import com.iscopy.dailyenglish.ui.fragment.HomeFragment;
 import com.iscopy.dailyenglish.ui.fragment.MyFragment;
-import com.iscopy.dailyenglish.utils.AppManager;
 import com.iscopy.dailyenglish.widget.NoSlidingViewPager;
 
 import java.util.ArrayList;
